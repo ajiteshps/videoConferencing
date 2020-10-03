@@ -7,6 +7,7 @@ export default class VideoCompWrap extends LightningElement {
     @track userConnectedInfo = [];
     // eslint-disable-next-line no-undef
     @track myPeer;
+    call;
     connectedCallback() {
         let urlParam = new URLSearchParams(window.location.search);
         // eslint-disable-next-line no-undef
@@ -54,22 +55,25 @@ export default class VideoCompWrap extends LightningElement {
                     'user-connected',
                     this.connectToNewUser.bind(this, stream)
                 );
-                this.myPeer.on('call', (call) => {
-                    console.log(call);
-                    call.answer(stream);
-                    call.on('stream', (userVideoStream) => {
-                        this.addNewUserToListHelper(call.peer);
-                        this.addVideoStream(call.peer, userVideoStream);
-                    });
-                    call.on('close', () => {
-                        this.removeVideoStream(call.peer);
-                    });
-                });
+                this.myPeer.on('call', this.handleCallFunc.bind(this, stream));
             })
             .catch((error) => {
                 // eslint-disable-next-line no-alert
                 alert(error);
             });
+    }
+    handleCallFunc(stream, call) {
+        if (stream && call) {
+            console.log(call);
+            call.answer(stream);
+            call.on('stream', (userVideoStream) => {
+                this.addNewUserToListHelper(call.peer);
+                this.addVideoStream(call.peer, userVideoStream);
+            });
+            call.on('close', () => {
+                this.removeVideoStream(call.peer);
+            });
+        }
     }
 
     connectToNewUser(stream, peerId) {
