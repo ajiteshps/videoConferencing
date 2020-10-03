@@ -13,6 +13,14 @@ app.use(cors());
 app.use(helmet());
 app.use(compression());
 
+app.use(function (req, res, next) {
+    res.setHeader(
+        'Content-Security-Policy',
+        "script-src 'self' https://0.peerjs.com"
+    );
+    return next();
+});
+
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3001;
 const DIST_DIR = './dist';
