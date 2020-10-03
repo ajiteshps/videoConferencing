@@ -10,10 +10,7 @@ export default class VideoCompWrap extends LightningElement {
     connectedCallback() {
         let urlParam = new URLSearchParams(window.location.search);
         // eslint-disable-next-line no-undef
-        this.myPeer = new Peer(`ajiteshps${new Date().getTime()}`, {
-            host: 'peerjs.92k.de',
-            secure: false
-        });
+        this.myPeer = new Peer(`ajiteshps${new Date().getTime()}`);
         console.log(this.myPeer);
         if (urlParam.has('roomId')) {
             this.roomId = urlParam.get('roomId');
