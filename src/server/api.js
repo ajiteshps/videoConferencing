@@ -5,10 +5,11 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+var cors = require('cors');
 const { v4: uuidV4 } = require('uuid');
 app.use(helmet());
 app.use(compression());
-
+app.use(cors());
 const HOST = process.env.API_HOST || 'localhost';
 const PORT = process.env.API_PORT || 3002;
 

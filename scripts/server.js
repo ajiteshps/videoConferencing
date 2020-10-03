@@ -5,10 +5,11 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
+var cors = require('cors');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const { v4: uuidV4 } = require('uuid');
-
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 
