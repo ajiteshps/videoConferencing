@@ -46,7 +46,10 @@ export default class VideoCompWrap extends LightningElement {
                     `.${this.userConnectedInfo[0].userId}`
                 );
                 videoElement.srcObject = stream;
-                videoElement.play();
+                videoElement.muted = true;
+                videoElement.addEventListener('loadedmetadata', () => {
+                    videoElement.play();
+                });
                 this.socket.on(
                     'user-connected',
                     this.connectToNewUser.bind(this, stream)
