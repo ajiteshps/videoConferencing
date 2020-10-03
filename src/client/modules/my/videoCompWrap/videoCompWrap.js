@@ -55,29 +55,28 @@ export default class VideoCompWrap extends LightningElement {
                     'user-connected',
                     this.connectToNewUser.bind(this, stream)
                 );
-                this.myPeer.on('call', this.handleCallFunc.bind(this, stream));
+                this.myPeer.on('call', (call) => {
+                    console.log(call);
+                    call.answer(stream);
+                    call.on('stream', (userVideoStream) => {
+                        this.addNewUserToListHelper(call.peer);
+                        this.addVideoStream(call.peer, userVideoStream);
+                    });
+                    call.on('close', () => {
+                        this.removeVideoStream(call.peer);
+                    });
+                });
             })
             .catch((error) => {
                 // eslint-disable-next-line no-alert
                 alert(error);
             });
     }
-    handleCallFunc(stream, call) {
-        if (stream && call) {
-            console.log(call);
-            call.answer(stream);
-            call.on('stream', (userVideoStream) => {
-                this.addNewUserToListHelper(call.peer);
-                this.addVideoStream(call.peer, userVideoStream);
-            });
-            call.on('close', () => {
-                this.removeVideoStream(call.peer);
-            });
-        }
-    }
 
     connectToNewUser(stream, peerId) {
         console.log('New User connected');
+        console.log('stream', stream);
+        console.log('peerId', peerId);
         if (stream && peerId) {
             const call = this.myPeer.call(peerId, stream);
             call.on('stream', this.addVideoStream.bind(this, peerId));
