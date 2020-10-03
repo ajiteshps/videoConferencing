@@ -18,6 +18,7 @@ export default class App extends LightningElement {
         const io = await require('socket.io-client');
         this.socket = io(connectionUrl);
         this.socket.on('connect', () => {
+            console.log('Connection Started');
             this.socketReady = true;
         });
     }
