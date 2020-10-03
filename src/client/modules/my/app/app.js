@@ -14,6 +14,7 @@ export default class App extends LightningElement {
     }
     async openSocket() {
         let connectionUrl = 'https://video-conferencing-node.herokuapp.com';
+        // let connectionUrl = 'http://localhost:3002';
         console.log(connectionUrl);
         const io = await require('socket.io-client');
         this.socket = io(connectionUrl);

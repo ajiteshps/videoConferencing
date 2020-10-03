@@ -13,6 +13,13 @@ app.use(cors());
 const HOST = process.env.API_HOST || 'localhost';
 const PORT = process.env.API_PORT || 3002;
 
+app.use(function (req, res, next) {
+    res.setHeader(
+        'Content-Security-Policy',
+        "script-src 'self' https://peerjs.com"
+    );
+    return next();
+});
 app.get('/api/v1/endpoint', (req, res) => {
     res.json({ success: true });
 });
