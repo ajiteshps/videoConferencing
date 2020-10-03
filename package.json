@@ -1,19 +1,22 @@
 {
-    "name": "videoConferencingApp",
+    "name": "video-Conferencing-node",
     "description": "My amazing LWC app",
     "version": "0.0.1",
     "author": "Ajitesh",
-    "bugs": "https://github.com/Ajitesh/videoConferencingApp/issues",
+    "bugs": "https://github.com/Ajitesh/video-Conferencing-node/issues",
     "dependencies": {
         "compression": "^1.7.4",
         "express": "^4.17.1",
-        "helmet": "^4.1.1"
+        "helmet": "^4.1.1",
+        "socket.io": "^2.3.0",
+        "uuid": "^8.3.0"
     },
     "devDependencies": {
         "eslint": "^7.10.0",
         "husky": "^4.3.0",
         "lint-staged": "^10.4.0",
         "lwc-services": "^2.2.1",
+        "nodemon": "^2.0.4",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.1.2"
     },
@@ -22,7 +25,7 @@
         "npm": ">=6.4.1",
         "yarn": ">=1.9.4"
     },
-    "homepage": "https://github.com/Ajitesh/videoConferencingApp",
+    "homepage": "https://github.com/Ajitesh/video-Conferencing-node",
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
@@ -51,14 +54,14 @@
         ],
         "exec": "node ./src/server/api.js"
     },
-    "repository": "Ajitesh/videoConferencingApp",
+    "repository": "Ajitesh/video-Conferencing-node",
     "scripts": {
         "build": "lwc-services build -m production",
         "build:development": "lwc-services build",
         "lint": "eslint ./src/**/*.js",
         "prettier": "prettier --write \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
         "prettier:verify": "prettier --list-different \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
-        "serve": "node scripts/server.js",
+        "serve": "node scrips/server.js",
         "serve:api": "node src/server/api.js",
         "serve:client": "node scripts/server.js",
         "test:unit": "lwc-services test:unit",
@@ -67,6 +70,7 @@
         "test:unit:watch": "lwc-services test:unit --watch",
         "watch": "run-p watch:client watch:server",
         "watch:client": "lwc-services watch",
-        "watch:server": "nodemon"
+        "watch:server": "nodemon",
+        "devStart": "nodemon server.js"
     }
 }

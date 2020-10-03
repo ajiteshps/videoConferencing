@@ -1,0 +1,10 @@
+<template>
+    <template for:each={userConnectedInfo} for:item="videoInfo">
+        <video
+            class={videoInfo.userId}
+            key={videoInfo.userId}
+            width="320"
+            height="240"
+        ></video>
+    </template>
+</template>
