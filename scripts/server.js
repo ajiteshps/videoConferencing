@@ -16,7 +16,7 @@ app.use(compression());
 app.use(function (req, res, next) {
     res.setHeader(
         'Content-Security-Policy',
-        "script-src 'self' https://0.peerjs.com"
+        "script-src 'self' https://peerjs.92k.de"
     );
     return next();
 });
