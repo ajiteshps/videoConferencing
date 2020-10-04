@@ -4,7 +4,7 @@ export default class App extends LightningElement {
     @track socket;
     socketReady = false;
     domainName = window.location.hostname;
-
+    @track simplePeer;
     connectedCallback() {
         this.openSocket();
     }
