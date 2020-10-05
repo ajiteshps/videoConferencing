@@ -31,14 +31,48 @@ app.get('/roomIdGen', (req, res) => {
     res.json({ roomId: uuidV4() });
 });
 
+const users = {};
+
+const socketToRoom = {};
 io.on('connection', (socket) => {
-    console.log('Client Connected :' + socket.id);
-    socket.on('join-room', (roomId, userId) => {
-        socket.join(roomId);
-        socket.to(roomId).broadcast.emit('user-connected', userId);
-        socket.on('disconnect', () => {
-            socket.to(roomId).broadcast.emit('user-disconnected', userId);
+    socket.on('join room', (roomId) => {
+        if (users[roomId]) {
+            const length = users[roomId].length;
+            if (length === 4) {
+                socket.emit('room full');
+                return;
+            }
+            users[roomId].push(socket.id);
+        } else {
+            users[roomId] = [socket.id];
+        }
+        socketToRoom[socket.id] = roomId;
+        const usersInThisRoom = users[roomId].filter((id) => id !== socket.id);
+
+        socket.emit('all users', usersInThisRoom);
+    });
+
+    socket.on('sending signal', (payload) => {
+        io.to(payload.userToSignal).emit('user joined', {
+            signal: payload.signal,
+            callerId: payload.callerId
         });
+    });
+
+    socket.on('returning signal', (payload) => {
+        io.to(payload.callerId).emit('receiving returned signal', {
+            signal: payload.signal,
+            id: socket.id
+        });
+    });
+
+    socket.on('disconnect', () => {
+        const roomId = socketToRoom[socket.id];
+        let room = users[roomId];
+        if (room) {
+            room = room.filter((id) => id !== socket.id);
+            users[roomId] = room;
+        }
     });
 });
 
