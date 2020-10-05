@@ -14,6 +14,7 @@ export default class VideoCompWrap extends LightningElement {
     }
     async renderedCallback() {
         this.userVideo = this.template.querySelector('.myVideo');
+        this.userVideo.muted = true;
     }
     initializeSocket() {
         //bind the onSocketEvent method to the 'cdc' socket event to update the chart with new incoming data
