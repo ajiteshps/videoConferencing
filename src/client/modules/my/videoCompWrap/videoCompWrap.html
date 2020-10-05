@@ -1,8 +1,9 @@
 <template>
-    <template for:each={userConnectedInfo} for:item="videoInfo">
+    <video class="myVideo" width="320" height="240"></video>
+    <template for:each={peerRef} for:item="peer" for:index="index">
         <video
-            class={videoInfo.userId}
-            key={videoInfo.userId}
+            name={peer.peerId}
+            key={peer.peerId}
             width="320"
             height="240"
         ></video>
